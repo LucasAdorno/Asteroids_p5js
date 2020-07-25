@@ -1,11 +1,24 @@
-function Asteroid () {
-  this.pos = createVector(random(width), random(height));
+function Asteroid (pos, r) {
+
+  if (pos){
+    this.pos = pos.copy();
+  }
+  else {
+    this.pos = createVector(random(width), random(height));
+  }
+  if (r){
+    this.r = r*0.5;
+  }
+  else {
+    this.r = random(15,50);
+  }
+
+
   this.vel = p5.Vector.random2D();
-  this.r = random(15,50);
   this.total = floor(random(5, 15));
   this.offset = [];
   for (let i = 0; i< this.total; i++){
-    this.offset[i] = random(-15,15);
+    this.offset[i] = random(-this.r * 0.5, this.r * 0.5);
   }
 
   this.update = () => {
@@ -17,7 +30,6 @@ function Asteroid () {
     stroke(255);
     noFill();
     translate(this.pos.x, this.pos.y);
-    // ellipse(0,0,this.r*2);
     beginShape();
     for (let i = 0; i < this.total; i++){
       let angle = map(i, 0, this.total, 0, TWO_PI);
@@ -28,6 +40,13 @@ function Asteroid () {
     }
     endShape(CLOSE);
     pop();
+  }
+
+  this.breakup = () => {
+    let newA = [];
+    newA[0] = new Asteroid(this.pos, this.r);
+    newA[1] = new Asteroid(this.pos, this.r);
+    return newA;
   }
 
   this.edges = () =>{
