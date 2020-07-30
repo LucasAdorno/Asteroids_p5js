@@ -15,7 +15,7 @@ function draw() {
 
   for (let i = 0; i < asteroids.length; i++) {
     if (ship.hits(asteroids[i])) {
-      console.log('etaporra');
+      //collision ship with asteroid return
     }
     asteroids[i].render();
     asteroids[i].update();
